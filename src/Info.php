@@ -81,8 +81,13 @@ class Info
         return filemtime($this->path);
     }
     // 获取权限
-    function getChmod()
+    public function getChmod()
     {
         return substr(base_convert(@fileperms($this->path), 10, 8), -3);
+    }
+    // 获取所有者 只可以在linux下使用
+    public function getChown()
+    {
+        return posix_getpwuid(fileowner($this->path));
     }
 }
