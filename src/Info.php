@@ -9,7 +9,7 @@
 declare(strict_types=1);
 
 
-namespace DcrPHP\File;
+namespace driFile\File;
 
 
 class Info
@@ -73,7 +73,7 @@ class Info
      */
     public function getSize()
     {
-        return getSize(dirsize($this->path));
+        return $this->setSize($this->dirsize($this->path));
     }
 
     public function getLastMod()
@@ -89,5 +89,30 @@ class Info
     public function getChown()
     {
         return posix_getpwuid(fileowner($this->path));
+    }
+    public function dirsize($dir)
+    {
+        @$dh = opendir($dir);
+        $size = 0;
+        while ($file = @readdir($dh)) {
+            if ($file != "." and $file != "..") {
+                $path = $dir . "/" . $file;
+                if (is_dir($path)) {
+                    $size += $this->dirsize($path);
+                } elseif (is_file($path)) {
+                    $size += filesize($path);
+                }
+            }
+        }
+        @closedir($dh);
+        return $size;
+    }
+    public function setSize($size)
+    {
+        $units = array(' B', ' KB', ' MB', ' GB', ' TB');
+        for ($i = 0; $size >= 1024 && $i < 4; $i++) {
+            $size /= 1024;
+        }
+        return round($size, 2) . $units[$i];
     }
 }

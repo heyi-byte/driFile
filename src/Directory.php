@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DcrPHP\File;
+namespace driFile\File;
 
 class Directory
 {

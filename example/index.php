@@ -8,9 +8,9 @@
 
 require_once("../vendor/autoload.php");
 
-use DcrPHP\File\Directory;
-use DcrPHP\File\File;
-use DcrPHP\File\Info;
+use driFile\File\Directory;
+use driFile\File\File;
+use driFile\File\Info;
 
 ini_set('display_errors', 'on');
 

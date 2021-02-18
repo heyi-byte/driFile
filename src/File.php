@@ -1,8 +1,14 @@
 <?php
+/*
+ * @Descripttion: 
+ * @Author: 荷逸
+ * @email: 563428234@qq.com
+ * @Date: 2021-01-28 21:03:51
+ */
 
 declare(strict_types=1);
 
-namespace DcrPHP\File;
+namespace driFile\File;
 
 use Symfony\Component\Filesystem\Filesystem;
 
