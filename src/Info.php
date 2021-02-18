@@ -90,15 +90,16 @@ class Info
     {
         return posix_getpwuid(fileowner($this->path));
     }
-    public function dirsize($dir, $size = 0)
+    public function dirsize($dir)
     {
-        if (is_dir($dir)) {
-            @$dh = opendir($dir);
+        @$dh = opendir($dir);
+        $size = 0;
+        if ($dh != false) {
             while ($file = @readdir($dh)) {
                 if ($file != "." and $file != "..") {
                     $path = $dir . "/" . $file;
                     if (is_dir($path)) {
-                        $size += $this->dirsize($path, $size);
+                        $size += $this->dirsize($path);
                     } elseif (is_file($path)) {
                         $size += filesize($path);
                     }
