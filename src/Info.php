@@ -90,21 +90,24 @@ class Info
     {
         return posix_getpwuid(fileowner($this->path));
     }
-    public function dirsize($dir)
+    public function dirsize($dir, $size = 0)
     {
-        @$dh = opendir($dir);
-        $size = 0;
-        while ($file = @readdir($dh)) {
-            if ($file != "." and $file != "..") {
-                $path = $dir . "/" . $file;
-                if (is_dir($path)) {
-                    $size += $this->dirsize($path);
-                } elseif (is_file($path)) {
-                    $size += filesize($path);
+        if (is_dir($dir)) {
+            @$dh = opendir($dir);
+            while ($file = @readdir($dh)) {
+                if ($file != "." and $file != "..") {
+                    $path = $dir . "/" . $file;
+                    if (is_dir($path)) {
+                        $size += $this->dirsize($path, $size);
+                    } elseif (is_file($path)) {
+                        $size += filesize($path);
+                    }
                 }
             }
+            @closedir($dh);
+        } else {
+            $size += filesize($dir);
         }
-        @closedir($dh);
         return $size;
     }
     public function setSize($size)
